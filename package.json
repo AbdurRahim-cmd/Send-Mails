@@ -1,0 +1,37 @@
+{
+  "name": "send-mails",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AbdurRahim-cmd/Send-Mails.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AbdurRahim-cmd/Send-Mails/issues"
+  },
+  "homepage": "https://github.com/AbdurRahim-cmd/Send-Mails#readme",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "crypto-js": "^4.2.0",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.4.1",
+    "googleapis": "^171.4.0",
+    "install": "^0.13.0",
+    "jsonwebtoken": "^9.0.3",
+    "middleware": "^1.0.0",
+    "mongoose": "^9.5.0",
+    "multer": "^2.1.1",
+    "nodemailer": "^8.0.6"
+  }
+}
