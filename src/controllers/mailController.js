@@ -3,7 +3,7 @@
 import User from "../models/userModel.js";
 import { decrypt } from "../utils/encrypt.js";
 import oAuth2Client from "../config/googleClient.js";
-import nodemailer from "nodemailer";
+import { google } from "googleapis";
 
 export const sendMail = async (req, res) => {
   try {
@@ -37,35 +37,39 @@ export const sendMail = async (req, res) => {
       refresh_token: refreshToken,
     });
 
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        type: "OAuth2",
-        user: req.user.email,
-        clientId: process.env.CLIENT_ID,
-        clientSecret: process.env.CLIENT_SECRET,
-        refreshToken: refreshToken,
+    const gmail = google.gmail({
+  version: "v1",
+  auth: oAuth2Client,
+});
+
+await Promise.all(
+  emails.map(async (mail) => {
+    const messageParts = [
+      `From: ${req.user.email}`,
+      `To: ${mail.to}`,
+      `Subject: ${mail.subject}`,
+      "MIME-Version: 1.0",
+      "Content-Type: text/plain; charset=utf-8",
+      "",
+      mail.body,
+    ];
+
+    const message = messageParts.join("\n");
+
+    const encodedMessage = Buffer.from(message)
+      .toString("base64")
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_")
+      .replace(/=+$/, "");
+
+    await gmail.users.messages.send({
+      userId: "me",
+      requestBody: {
+        raw: encodedMessage,
       },
     });
-
-    await Promise.all(
-      emails.map((mail) =>
-        transporter.sendMail({
-          from: req.user.email,
-          to: mail.to,
-          subject: mail.subject,
-          text: mail.body,
-          attachments: resumeFile
-            ? [
-                {
-                  filename: resumeFile.originalname,
-                  content: resumeFile.buffer,
-                },
-              ]
-            : [],
-        }),
-      ),
-    );
+  })
+);
 
     res.status(200).json({
       success: true,
