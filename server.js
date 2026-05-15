@@ -116,10 +116,11 @@ import app from "./src/app.js"
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
-    app.listen(5000, () => {
-      console.log("Server running on port 5000");
+    app.listen(8000, () => {
+      console.log("Server running on port 8000");
     });
   })
   .catch((error) => {
     console.error("MongoDB connection failed:", error);
   });
+

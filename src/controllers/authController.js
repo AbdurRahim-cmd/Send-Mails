@@ -9,7 +9,7 @@ export const googleAuth = (req, res) => {
     access_type: "offline",
     prompt: "consent",
     scope: [
-      "https://mail.google.com/",
+      "https://www.googleapis.com/auth/gmail.send",
       "https://www.googleapis.com/auth/userinfo.email",
       "openid",
     ],
@@ -24,6 +24,7 @@ export const googleCallback = async (req, res) => {
 
     const { tokens } = await oAuth2Client.getToken(code);
     oAuth2Client.setCredentials(tokens);
+    console.log("TOKENS:", tokens);
 
     const oauth2 = google.oauth2({
       auth: oAuth2Client,
@@ -46,11 +47,9 @@ export const googleCallback = async (req, res) => {
       expiresIn: "7d",
     });
 
-    res.json({
-      success: true,
-      token: jwtToken,
-      email,
-    });
+   res.redirect(
+  `${process.env.FRONTEND_URL}/form?token=${jwtToken}&email=${email}`
+);
   } catch (error) {
     console.error("FULL GOOGLE OAUTH ERROR:", error);
 
