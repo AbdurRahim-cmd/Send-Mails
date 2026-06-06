@@ -10,6 +10,7 @@ export const googleAuth = (req, res) => {
     prompt: "consent",
     scope: [
       "https://www.googleapis.com/auth/gmail.send",
+      "https://www.googleapis.com/auth/gmail.readonly",
       "https://www.googleapis.com/auth/userinfo.email",
       "openid",
     ],
@@ -24,7 +25,7 @@ export const googleCallback = async (req, res) => {
 
     const { tokens } = await oAuth2Client.getToken(code);
     oAuth2Client.setCredentials(tokens);
-    console.log("TOKENS:", tokens);
+
 
     const oauth2 = google.oauth2({
       auth: oAuth2Client,
