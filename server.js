@@ -112,6 +112,7 @@ import "./src/config/env.js"
 import mongoose from "mongoose";
 import app from "./src/app.js"
 
+console.log("MONGO_URI =", process.env.MONGO_URI ? "FOUND" : "NOT FOUND");
 
 mongoose
   .connect(process.env.MONGO_URI)
