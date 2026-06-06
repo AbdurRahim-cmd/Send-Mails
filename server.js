@@ -117,6 +117,8 @@ console.log("MONGO_URI =", process.env.MONGO_URI ? "FOUND" : "NOT FOUND");
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
+    console.log("MongoDB Connected");
+
     app.listen(8000, () => {
       console.log("Server running on port 8000");
     });
