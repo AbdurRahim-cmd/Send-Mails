@@ -2,7 +2,7 @@
 
 import { Router } from "express";
 import authMiddleware from "../../middleware/authMiddleware.js";
-import limiter from "../../middleware/rateLimiter.js";
+import { limiter } from "../../middleware/rateLimiter.js";
 import validateRequest from "../../middleware/validateRequest.js";
 import { listJobsQuerySchema, jobIdParamSchema } from "./job.validator.js";
 import { syncTodayJobs, getSyncStatus, listJobs, getJob } from "./job.controller.js";
